@@ -2,8 +2,8 @@ import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
 
-const Pagination = ({ itemCount, pageSize, onePageChange, currentPage }) => {
-    const pageCount = Math.ceil(itemCount / pageSize);
+const Pagination = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
+    const pageCount = Math.ceil(itemsCount / pageSize);
     if (pageCount === 1) return null;
     const pages = _.range(1, pageCount + 1);
     return (
@@ -19,7 +19,7 @@ const Pagination = ({ itemCount, pageSize, onePageChange, currentPage }) => {
                     >
                         <button
                             className="page-link"
-                            onClick={() => onePageChange(page)}
+                            onClick={() => onPageChange(page)}
                         >
                             {page}
                         </button>
@@ -30,9 +30,9 @@ const Pagination = ({ itemCount, pageSize, onePageChange, currentPage }) => {
     );
 };
 Pagination.propTypes = {
-    itemCount: PropTypes.number.isRequired,
+    itemsCount: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired,
-    onePageChange: PropTypes.func.isRequired,
+    onPageChange: PropTypes.func.isRequired,
     currentPage: PropTypes.number.isRequired
 };
 
