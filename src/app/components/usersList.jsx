@@ -7,11 +7,13 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
-const Users = () => {
+import SearchInput from "./searchInput";
+const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
+    const [search, setSearch] = useState("");
     const pageSize = 8;
 
     const [users, setUsers] = useState();
@@ -30,6 +32,10 @@ const Users = () => {
         });
         setUsers(newArray);
     };
+    const handleSearch = (value) => {
+        setSearch(value);
+        setSelectedProf(null);
+    };
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfession(data));
@@ -41,6 +47,7 @@ const Users = () => {
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
+        setSearch("");
     };
 
     const handlePageChange = (pageIndex) => {
@@ -57,10 +64,18 @@ const Users = () => {
                       JSON.stringify(user.profession) ===
                       JSON.stringify(selectedProf)
               )
-            : users;
+            : users.filter((user) =>
+                  user.name
+                      .toLocaleLowerCase()
+                      .includes(search.toLocaleLowerCase())
+              );
 
         const count = filteredUsers.length;
-        const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
+        const sortedUsers = _.orderBy(
+            filteredUsers,
+            [sortBy.path],
+            [sortBy.order]
+        );
         const usersCrop = paginate(sortedUsers, currentPage, pageSize);
         const clearFilter = () => {
             setSelectedProf();
@@ -80,12 +95,14 @@ const Users = () => {
                             onClick={clearFilter}
                         >
                             {" "}
-                            Очистить
+                            Очиститть
                         </button>
                     </div>
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <SearchInput onChange={handleSearch} search={search} />
+
                     {count > 0 && (
                         <UserTable
                             users={usersCrop}
@@ -109,8 +126,8 @@ const Users = () => {
     }
     return "loading...";
 };
-Users.propTypes = {
+UsersList.propTypes = {
     users: PropTypes.array
 };
 
-export default Users;
+export default UsersList;
