@@ -1,8 +1,8 @@
 export function validator(data, config) {
     const errors = {};
-    function validate(valedateMethod, data, config) {
+    function validate(validateMethod, data, config) {
         let statusValidate;
-        switch (valedateMethod) {
+        switch (validateMethod) {
             case "isRequired": {
                 if (typeof data === "boolean") {
                     statusValidate = !data;
@@ -36,11 +36,11 @@ export function validator(data, config) {
         if (statusValidate) return config.message;
     }
     for (const fieldName in data) {
-        for (const valedateMethod in config[fieldName]) {
+        for (const validateMethod in config[fieldName]) {
             const error = validate(
-                valedateMethod,
+                validateMethod,
                 data[fieldName],
-                config[fieldName][valedateMethod]
+                config[fieldName][validateMethod]
             );
             if (error && !errors[fieldName]) {
                 errors[fieldName] = error;

@@ -10,7 +10,6 @@ const LoginForm = () => {
         stayOn: false
     });
     const [errors, setErrors] = useState({});
-
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -80,7 +79,7 @@ const LoginForm = () => {
                 onChange={handleChange}
                 name="stayOn"
             >
-                Оставаься в системе
+                Оставаться в системе
             </CheckBoxField>
             <button
                 className="btn btn-primary w-100 mx-auto"

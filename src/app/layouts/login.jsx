@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import LoginForm from "../components/ui/loginForm";
-import RegisetrForm from "../components/ui/regisetrForm";
+import RegisterForm from "../components/ui/registerForm";
 
 const Login = () => {
     const { type } = useParams();
     const [formType, setFormType] = useState(
         type === "register" ? type : "login"
     );
-    const togleFormType = (params) => {
-        setFormType((prevstate) =>
-            prevstate === "register" ? "login" : "register"
+    const toggleFormType = (params) => {
+        setFormType((prevState) =>
+            prevState === "register" ? "login" : "register"
         );
     };
 
@@ -20,12 +20,11 @@ const Login = () => {
                 <div className="col-md-6 offset-md-3 shadow p-4">
                     {formType === "register" ? (
                         <>
-                            {" "}
                             <h3 className="mb-4">Register</h3>
-                            <RegisetrForm />
+                            <RegisterForm />
                             <p>
                                 Already have account?{" "}
-                                <a role="button" onClick={togleFormType}>
+                                <a role="button" onClick={toggleFormType}>
                                     {" "}
                                     Sign In
                                 </a>
@@ -33,16 +32,14 @@ const Login = () => {
                         </>
                     ) : (
                         <>
-                            {" "}
                             <h3 className="mb-4">Login</h3>
                             <LoginForm />
                             <p>
-                                {" "}
                                 Dont have account?{" "}
-                                <a role="button" onClick={togleFormType}>
+                                <a role="button" onClick={toggleFormType}>
                                     {" "}
                                     Sign Up
-                                </a>{" "}
+                                </a>
                             </p>
                         </>
                     )}
